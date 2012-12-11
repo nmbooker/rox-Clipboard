@@ -1,0 +1,40 @@
+#! /usr/bin/env python
+
+import findrox
+findrox.version(1, 9, 8)
+import rox
+from rox import saving
+from rox import g, TRUE, FALSE
+import subprocess
+import sys
+
+class SaveClipboard(saving.Saveable):
+    def save_to_stream(self, stream):
+        clipboard = box.which_clipboard.get_active_text()
+        command = ['xclip', '-out', '-selection', clipboard]
+        try:
+            sys.stderr.write("%r\n" % command)
+            text = subprocess.check_output(command)
+        except subprocess.CalledProcessError, exc:
+            sys.stderr.write(exc + "\n")
+        else:
+            stream.write(text)
+
+class ClipboardBox(saving.SaveBox):
+    def build_main_area(self):
+        self.vbox.pack_start(self.save_area, expand=TRUE, fill=TRUE, padding=0)
+        hbox = g.HBox(FALSE, 10)
+        hbox.pack_start(g.Label('Clipboard:'), FALSE, TRUE, 10)
+        self.which_clipboard = g.combo_box_new_text()
+        clipboards = ['clipboard', 'primary']
+        for cb in clipboards:
+            self.which_clipboard.append_text(cb)
+        self.which_clipboard.set_active(0)
+        hbox.pack_start(self.which_clipboard, TRUE, TRUE, 0)
+        self.vbox.pack_start(hbox, FALSE, TRUE, 0)
+        hbox.show_all()
+
+box = ClipboardBox(SaveClipboard(), 'ClipboardContents', 'text/plain')
+box.show()
+
+rox.mainloop()
