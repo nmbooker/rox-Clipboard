@@ -24,7 +24,7 @@ git clone git://github.com/nmbooker/rox-Clipboard.git Clipboard
 
 1. Copy the text you want to save into the clipboard.
 2. Open Clipboard application from ROX filer.
-3. Type a name for the new file, and drag it into place.  You can also drag and drop the text into an application that accepts text/plain drops, such as edit or gedit.
+3. Type a name for the new file, and drag it into your file manager.
 
 ### If you don't have rox-filer
 Instead of launching the application directory from rox filer, you can launch
