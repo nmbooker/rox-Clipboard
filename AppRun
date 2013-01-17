@@ -16,7 +16,7 @@ class SaveClipboard(saving.Saveable):
             sys.stderr.write("%r\n" % command)
             text = subprocess.check_output(command)
         except subprocess.CalledProcessError, exc:
-            sys.stderr.write(exc + "\n")
+            sys.stderr.write("%s\n" % exc)
         else:
             stream.write(text)
 
